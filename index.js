@@ -11,16 +11,16 @@ const port = process.env.PORT || 3000
 
 const connection = require('./config/db')
 
-// app.use('/', router)
+app.use('/', router)
 
-app.get('/', (req, res) => {
-    let sql = "SELECT * FROM pets";
-    connection.query(sql, (err, result) => {
-        if(err) throw err;
-        console.log(result)
-        res.send(result)
-    })
-})
+// app.get('/', (req, res) => {
+//     let sql = "SELECT * FROM pets";
+//     connection.query(sql, (err, result) => {
+//         if(err) throw err;
+//         console.log(result)
+//         res.send(result)
+//     })
+// })
 
 
 
