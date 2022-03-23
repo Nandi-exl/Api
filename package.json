@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start" : "nodemon index.js"
+    "start": "nodemon index.js"
   },
   "repository": {
     "type": "git",
@@ -18,9 +18,10 @@
   },
   "homepage": "https://github.com/Nandi-exl/Api#readme",
   "dependencies": {
-    "express": "^4.17.3",
-    "nodemon": "^2.0.15",
+    "body-parser": "^1.19.2",
     "dotenv": "^16.0.0",
-    "mysql": "^2.18.1"
+    "express": "^4.17.3",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.15"
   }
 }

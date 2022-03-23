@@ -8,19 +8,12 @@ const router = require('./router/router')
 const express = require('express');
 const app = express()
 const port = process.env.PORT || 3000
+const bodyParser = require('body-parser')
 
-const connection = require('./config/db')
+app.use(bodyParser.json())
 
 app.use('/', router)
 
-// app.get('/', (req, res) => {
-//     let sql = "SELECT * FROM pets";
-//     connection.query(sql, (err, result) => {
-//         if(err) throw err;
-//         console.log(result)
-//         res.send(result)
-//     })
-// })
 
 
 
