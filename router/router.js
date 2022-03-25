@@ -11,4 +11,5 @@ router.post('/', Controller.addNewPet)
 router.delete('/:id', Controller.deletePet)
 
 router.put('/:id', Controller.updatePet)
+
 module.exports = router;
