@@ -24,8 +24,8 @@ static async addNewPet(req, res){
     let compareData = JSON.stringify(existId)
 
     //check data typeof 2 inputs
-    console.log(existId)
-    console.log(data.id)
+    // console.log(typeof existId)
+    // console.log(typeof data.id)
 
     //cara ngecek hanya bisa melakuakn dimensional logic  
     //atau bisa dicoba menggunakan regex
@@ -44,8 +44,8 @@ static async addNewPet(req, res){
 }
 
 static async updatePet(req, res){
-     const id =  req.params.id
-     const data = req.body
+    const id =  req.params.id
+    const data = req.body
     if(data == null){
         res.status(400).json({message : "input required"})
     }

@@ -2,7 +2,7 @@ const connection = require('../config/db')
 
 class Pet {
 static getAllPets() {
-        let sql = `SELECT * FROM pets`;
+        let sql = `SELECT * FROM user`;
         return new Promise((resolve, reject) => {
             connection.query(sql, (err, result) => {
                 resolve(result)
@@ -11,7 +11,7 @@ static getAllPets() {
     }
 
 static getPet (id){
-        let sql = `SELECT * FROM pets where id= ${id}`;
+        let sql = `SELECT * FROM user where id= ${id}`;
         return new Promise ((resolve, reject) => {
             connection.query(sql, (err, result) => {
                 resolve(result)
@@ -22,20 +22,24 @@ static getPet (id){
 static addNewPet (data){
         const dataImput = [
             data.id,
-            data.category,
-            data.name,
-            data.photo_url,
-            data.tags,
-            data.status
+            data.userName,
+            data.firstName,
+            data.lastName,
+            data.email,
+            data.password,
+            data.phone,
+            data.userStatus
         ]
-        let sql = `INSERT INTO pets (
+        let sql = `INSERT INTO user (
                    id, 
-                   category, 
-                   name, 
-                   photo_url, 
-                   tags, 
-                   status) 
-                   VALUES  (?, ?, ?, ?, ?, ?)`
+                   userName, 
+                   firstName, 
+                   lastName, 
+                   email, 
+                   password,
+                   phone,
+                   userStatus) 
+                   VALUES  (?, ?, ?, ?, ?, ?, ?, ?)`
         return new Promise((resolve, reject) => {
             connection.query(sql, dataImput, (err, result) => {
                 resolve(result)
@@ -44,7 +48,7 @@ static addNewPet (data){
     }
 
 static findById (){
-        let sql = `SELECT id FROM pets`
+        let sql = `SELECT id FROM user`
         return new Promise((resolve, reject) => {
             connection.query(sql, (err, result) => {
                 resolve(result)
@@ -54,19 +58,23 @@ static findById (){
 
 static updatePet(id, data){
     const dataUpdate = [
-            data.category,
-            data.name,
-            data.photo_url,
-            data.tags,
-            data.status
+            data.userName,
+            data.firstName,
+            data.lastName,
+            data.email,
+            data.password,
+            data.phone,
+            data.userStatus
         ]
-    let sql = `UPDATE pets
+    let sql = `UPDATE user
                SET 
-               category= ?,
-               name= ?,
-               photo_url= ?,
-               tags= ?,
-               status = ?
+               userName= ?,
+               firstName= ?,
+               lastName= ?,
+               email= ?,
+               password = ?,
+               phone = ?,
+               userStatus = ?
                WHERE id = ${id}
              `
     return new Promise((resolve, reject) => {
@@ -77,7 +85,7 @@ static updatePet(id, data){
 }
 
 static deletePet(id){
-    let sql = `DELETE FROM pets WHERE id = ${id}`
+    let sql = `DELETE FROM user WHERE id = ${id}`
     return new Promise((resolve, reject) => {
         connection.query(sql, (err, result) => {
             resolve(result)
