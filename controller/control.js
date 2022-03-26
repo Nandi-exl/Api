@@ -2,115 +2,64 @@ const Pet = require('../model/model')
 const connection = require('../config/db')
 
 class Controller {
-static getAllPets(req, res){
-    console.log("All pets is called")
-    connection.query(Pet.getAllPets(), (err, result) => {
-        if (err){
-            res.status(400).json({message : "Invalid URL"})
-            throw err;
-        } 
-            res.status(200)
-            res.send(result)
-        })
-    }
+static async getAllPets(req, res){
+    const data = await Pet.getAllPets()
+    res.status(200).json(data)
+}
 
-static getDetailPet  (req, res){
+static async getDetailPet  (req, res){
     const id = req.params.id
+    const data = await Pet.getPet(id)
+    res.status(200).json(data)
+}
 
-    connection.query(Pet.findById(), id, (err, result) => {
-        if(id == null || id == undefined){
-            res.status(400).json({message : "pet is not here"})
-            res.send("id is not here")
-        }
-    })
+static async addNewPet(req, res){
+    const data = req.body
 
-
-    connection.query(Pet.getPet(), id, (err, result) => {
-        if(err) throw err;
-            res.status(200)
-            res.send(result)
-        })
-    
+    if(!data.id){
+       return res.status(400).json({message : "id required"})   
     }
 
-static addNewPet(req, res){
-    const data =  [
-        req.body.id, 
-        req.body.category, 
-        req.body.name, 
-        req.body.photo_url, 
-        req.body.tags, 
-        req.body.status];
-    
-    let id = req.body.id
+    const existId = await Pet.findById()
+    let compareData = JSON.stringify(existId)
 
-    if(id == null){
-    res.status(400).json({message: "id required"})
-    return;
-    }
+    //check data typeof 2 inputs
+    console.log(existId)
+    console.log(data.id)
 
-    connection.query(Pet.findById(), (err, result) => { 
-        let newR = JSON.stringify(result)
-        // console.log(newR)
-        for(let i = 0; i< newR.length; i++){
-            for(let j = 0; j < newR[i]; j++){
-                // console.log(newR[i])
-                if(newR[i] == id){
-                      console.log("id already exixt")
-                      res.status(400).json({message : "id exist"})
-                      return;
-                    }
-                    break;
+    //cara ngecek hanya bisa melakuakn dimensional logic  
+    //atau bisa dicoba menggunakan regex
+    for(let i=0; i< compareData.length; i++){
+        for(let j=0; j < compareData[i]; j++){
+            if(compareData[i] == data.id){
+                res.status(400).json({message : "id exist"})   
+                return;
             }
+            break;
         }
-        
-    connection.query(Pet.addNewPet(), data, () => {
-            res.status(201).json(req.body)
-            console.log('adding new pet')
-        })           
-    })
-}
-
-
-static updatePet(req, res){
-     const id =  req.params.id
-     const data =  [
-        //  req.body.id, 
-         req.body.category, 
-         req.body.name, 
-         req.body.photo_url, 
-         req.body.tags, 
-         req.body.status,
-         id
-    ];
-    
-    
-    
-    if(data == undefined){
-        res.status(400).json({message : "input required"})
-        res.end();
     }
 
-    connection.query(Pet.updatePet(), data,  (err, result) => {
-        if(err) {
-            res.status(400).json({message : "data update error"})
-            throw err;
-        } 
-
-        console.log("data updated")
-        res.status(200).json({message : "data updated"})
-    })
+    await Pet.addNewPet(data)
+    res.status(201).json(data) 
 }
 
-static deletePet(req, res){
-    const data = req.params.id
-    connection.query(Pet.deletePet(), data, (err, result) => {
-        if (err) throw err;
-        res.status(200)
-        res.send(result)
-        console.log('Pet deleted')
-    })
-    }    
+static async updatePet(req, res){
+     const id =  req.params.id
+     const data = req.body
+    if(data == null){
+        res.status(400).json({message : "input required"})
+    }
+    await Pet.updatePet(id, data)
+    res.status(200).json(data)
+
+}
+
+static async deletePet(req, res){
+    const id = req.params.id
+    await Pet.deletePet(id)
+    res.status(200).json({message : `${id}'s Pet is deleted`})
+}
+
 }
 
 module.exports = Controller;

@@ -3,15 +3,31 @@ const connection = require('../config/db')
 class Pet {
 static getAllPets() {
         let sql = `SELECT * FROM pets`;
-        return sql
+        return new Promise((resolve, reject) => {
+            connection.query(sql, (err, result) => {
+                resolve(result)
+            })
+        })
     }
 
-static getPet (){
-        let sql = `SELECT * FROM pets where id= ?`;
-        return sql
+static getPet (id){
+        let sql = `SELECT * FROM pets where id= ${id}`;
+        return new Promise ((resolve, reject) => {
+            connection.query(sql, (err, result) => {
+                resolve(result)
+            })
+        })
     }
 
-static addNewPet (){
+static addNewPet (data){
+        const dataImput = [
+            data.id,
+            data.category,
+            data.name,
+            data.photo_url,
+            data.tags,
+            data.status
+        ]
         let sql = `INSERT INTO pets (
                    id, 
                    category, 
@@ -20,15 +36,30 @@ static addNewPet (){
                    tags, 
                    status) 
                    VALUES  (?, ?, ?, ?, ?, ?)`
-        return sql
+        return new Promise((resolve, reject) => {
+            connection.query(sql, dataImput, (err, result) => {
+                resolve(result)
+            })
+        })
     }
 
 static findById (){
-        let sql = `SELECT id FROM pets WHERE id >= 0`
-        return sql
+        let sql = `SELECT id FROM pets`
+        return new Promise((resolve, reject) => {
+            connection.query(sql, (err, result) => {
+                resolve(result)
+            })
+        })
     }
 
-static updatePet(){
+static updatePet(id, data){
+    const dataUpdate = [
+            data.category,
+            data.name,
+            data.photo_url,
+            data.tags,
+            data.status
+        ]
     let sql = `UPDATE pets
                SET 
                category= ?,
@@ -36,14 +67,22 @@ static updatePet(){
                photo_url= ?,
                tags= ?,
                status = ?
-               WHERE id = ?
+               WHERE id = ${id}
              `
-    return sql
+    return new Promise((resolve, reject) => {
+        connection.query(sql, dataUpdate, (err, result) => {
+            resolve(result)
+        })
+    })
 }
 
-static deletePet(){
-    let sql = `DELETE FROM pets WHERE id = ?`
-    return sql
+static deletePet(id){
+    let sql = `DELETE FROM pets WHERE id = ${id}`
+    return new Promise((resolve, reject) => {
+        connection.query(sql, (err, result) => {
+            resolve(result)
+        })
+    })
 }
     
 }
