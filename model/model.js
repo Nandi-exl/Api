@@ -1,7 +1,7 @@
 const connection = require('../config/db')
 
-class Pet {
-static getAllPets() {
+class User {
+static getAllUsers() {
         let sql = `SELECT * FROM user`;
         return new Promise((resolve, reject) => {
             connection.query(sql, (err, result) => {
@@ -10,7 +10,7 @@ static getAllPets() {
         })
     }
 
-static getPet (id){
+static getDetailUser (id){
         let sql = `SELECT * FROM user where id= ${id}`;
         return new Promise ((resolve, reject) => {
             connection.query(sql, (err, result) => {
@@ -19,7 +19,7 @@ static getPet (id){
         })
     }
 
-static addNewPet (data){
+static addNewUser (data){
         const dataImput = [
             data.id,
             data.userName,
@@ -56,7 +56,7 @@ static findById (){
         })
     }
 
-static updatePet(id, data){
+static updateUser(id, data){
     const dataUpdate = [
             data.userName,
             data.firstName,
@@ -84,7 +84,7 @@ static updatePet(id, data){
     })
 }
 
-static deletePet(id){
+static deleteUser(id){
     let sql = `DELETE FROM user WHERE id = ${id}`
     return new Promise((resolve, reject) => {
         connection.query(sql, (err, result) => {
@@ -95,4 +95,4 @@ static deletePet(id){
     
 }
 
-module.exports = Pet
+module.exports = User

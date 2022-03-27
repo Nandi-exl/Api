@@ -2,14 +2,14 @@ const express = require('express')
 const router = express.Router()
 const Controller = require('../controller/control')
 
-router.get('/', Controller.getAllPets)
+router.get('/', Controller.getAllUsers)
 
-router.get('/:id', Controller.getDetailPet)
+router.get('/:id', Controller.getDetailUser)
 
-router.post('/', Controller.addNewPet)
+router.post('/', Controller.addNewUser)
 
-router.delete('/:id', Controller.deletePet)
+router.delete('/:id', Controller.deleteUser)
 
-router.put('/:id', Controller.updatePet)
+router.put('/:id', Controller.updateUser)
 
 module.exports = router;
