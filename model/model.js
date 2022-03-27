@@ -47,8 +47,8 @@ static addNewUser (data){
         })
     }
 
-static findById (){
-        let sql = `SELECT id FROM user`
+static findById (id){
+        let sql = `SELECT id FROM user where id = ${id}`
         return new Promise((resolve, reject) => {
             connection.query(sql, (err, result) => {
                 resolve(result)
@@ -83,6 +83,7 @@ static updateUser(id, data){
         })
     })
 }
+
 
 static deleteUser(id){
     let sql = `DELETE FROM user WHERE id = ${id}`

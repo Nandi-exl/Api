@@ -19,24 +19,23 @@ static async addNewUser(req, res){
        return res.status(400).json({message : "id required"})   
     }
 
-    const existId = await User.findById()
-    let compareData = JSON.stringify(existId)
-
-    //check data typeof 2 inputs
-    // console.log(typeof existId)
-    // console.log(typeof data.id)
-
-    //cara ngecek hanya bisa melakuakn dimensional logic  
-    //atau bisa dicoba menggunakan regex
-    for(let i=0; i< compareData.length; i++){
-        for(let j=0; j < compareData[i]; j++){
-            if(compareData[i] == data.id){
-                res.status(400).json({message : "id exist"})   
-                return;
-            }
-            break;
-        }
+    const existId = await User.findById(data.id)
+    console.log(existId)
+    if(existId != ""){
+        res.status(400).json({message : "id exist"})   
+        return
     }
+
+    // const exArr = []
+
+    // existId.map(val => {
+    //     exArr.push(val.id)
+    // })
+
+    // if(exArr.includes(Number(data.id))){
+    //     res.status(400).json({message : "id exist"})   
+    //     return;
+    // }
 
     await User.addNewUser(data)
     res.status(201).json(data) 
@@ -46,17 +45,10 @@ static async updateUser(req, res){
     const id =  req.params.id
     const data = req.body
 
-    const checkId = await User.findById() //object
-    let idCheck = JSON.stringify(checkId)
-    // console.log(idCheck)// string
-    // console.log(id)//string
-
-    for(let i = 0; i<idCheck.length; i++){
-        if(idCheck[7] != id){
-            res.status(404).json({message : "data not found"})
-            return
-        }
-        break;
+    const checkId = await User.findById(id) //object
+    if(checkId == ""){
+        res.status(404).json({message : "id not found"})
+        return
     }
 
     if(data == null){
@@ -70,7 +62,7 @@ static async updateUser(req, res){
 static async deleteUser(req, res){
     const id = req.params.id
     await User.deleteUser(id)
-    res.status(200).json({message : `${id}'s Pet is deleted`})
+    res.status(200).json({message : `${id}'s user is deleted`})
 }
 
 }
